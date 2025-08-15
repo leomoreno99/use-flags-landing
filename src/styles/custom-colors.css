@@ -1,0 +1,15 @@
+/* Colores personalizados como respaldo */
+.text-custom-white { color: #FFFFFF !important; }
+.text-custom-black { color: #161616 !important; }
+.text-custom-lightgray { color: #BDBDBD !important; }
+.text-custom-green { color: #13B41E !important; }
+
+.bg-custom-white { background-color: #FFFFFF !important; }
+.bg-custom-black { background-color: #161616 !important; }
+.bg-custom-lightgray { background-color: #BDBDBD !important; }
+.bg-custom-green { background-color: #13B41E !important; }
+
+.border-custom-white { border-color: #FFFFFF !important; }
+.border-custom-black { border-color: #161616 !important; }
+.border-custom-lightgray { border-color: #BDBDBD !important; }
+.border-custom-green { border-color: #13B41E !important; }

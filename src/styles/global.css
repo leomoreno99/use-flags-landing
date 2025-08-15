@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+body {
+    @apply bg-black flex flex-col min-h-screen overscroll-none;
+}
