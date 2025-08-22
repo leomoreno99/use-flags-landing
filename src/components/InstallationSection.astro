@@ -1,0 +1,15 @@
+---
+import CopyButton from "./CopyButton";
+import Subtitle from "./Subtitle.astro";
+---
+
+<div class="flex flex-col gap-4">
+  <Subtitle text="Installation" />
+
+  <div class="flex items-center pl-2 justify-between border border-custom-gray rounded-[6px]" style="background: linear-gradient(180deg, #222222 0%, #1A1A1A 100%);">
+    <code class="text-base roboto-mono text-gray-100">
+      npm install use-flags-state
+    </code>
+    <CopyButton text="npm install use-flags-state" />
+  </div>
+</div>

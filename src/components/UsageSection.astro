@@ -1,0 +1,45 @@
+---
+import CodeBlock from "./CodeBlock";
+import Paragraph from "./Paragraph.astro";
+import Subtitle from "./Subtitle.astro";
+
+const usageExample = `import { useFlagsState } from 'use-flags-state';
+
+const { flags, setFlags, setFlag } = useFlagsState({
+  isLoading: false,
+  isError: false,
+  isSuccess: false,
+});
+
+const handleClick = async () => {
+  setFlags({ isLoading: true });
+  try {
+    const response = await fetch('/api/endpoint');
+    setFlags({ isLoading: false, isSuccess: true });
+  } catch (error) {
+    setFlags({ isLoading: false, isError: true });
+  }
+};
+
+return (
+  <div>
+    <button onClick={handleClick}>Click me</button>
+    {flags.isLoading && <div>Loading...</div>}
+    {flags.isError && <div>Error!</div>}
+    {flags.isSuccess && <div>Success!</div>}
+  </div>
+);`;
+---
+
+<div class="mx-auto max-w-4xl flex flex-col gap-3.5">
+  <Subtitle text="Usage" />
+
+  <Paragraph>
+    Manage multiple boolean flags in a single state object, with individual and
+    batch updates, and optional reset to initial values.
+  </Paragraph>
+
+  <div class="space-y-8">
+    <CodeBlock code={usageExample} />
+  </div>
+</div>
