@@ -1,16 +1,20 @@
 ---
+import BackgroundWrapper from "./BackgroundWrapper.astro";
 import Button from "./Button.astro";
 import Paragraph from "./Paragraph.astro";
 ---
 
-<div class="text-center max-w-4xl mx-auto py-60">
-  <h1 class="text-6xl md:text-7xl font-bold mb-4">
-    <span class="text-white"
-      >use<span class="text-custom-green">Flags</span></span
-    >
-  </h1>
+<div class="relative text-center max-w-4xl mx-auto py-60">
+  <BackgroundWrapper />
+  <div class="relative z-10">
+    <h1 class="text-6xl md:text-7xl font-bold mb-4">
+      <span class="text-white"
+        >use<span class="text-custom-green">Flags</span></span
+      >
+    </h1>
 
-  <Paragraph> A React hook for managing multiple boolean flags </Paragraph>
+    <Paragraph> A React hook for managing multiple boolean flags </Paragraph>
 
-  <Button name="GitHub" href="https://github.com/leomoreno99/use-flags-state" />
+    <Button name="GitHub" href="https://github.com/leomoreno99/use-flags-state" />
+  </div>
 </div>
