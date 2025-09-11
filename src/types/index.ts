@@ -1,11 +1,5 @@
 // Centralized types for the useFlags landing page
 
-export interface Flags {
-  isLoading: boolean;
-  isSuccess: boolean;
-  isError: boolean;
-}
-
 export interface LogEntry {
   id: number;
   timestamp: string;

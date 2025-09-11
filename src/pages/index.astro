@@ -19,9 +19,11 @@ import SectionContainer from "../components/SectionContainer.astro";
     <SectionContainer class="mb-20">
       <UsageSection />
     </SectionContainer>
-    <!-- <SectionContainer>
-      <InteractiveExample />
-    </SectionContainer> -->
+
+    <SectionContainer>
+      <InteractiveExample client:only="react" />
+    </SectionContainer>
+
     <!-- <Footer /> -->
   </main>
 </Layout>

@@ -17,6 +17,10 @@ html {
     font-family: 'Oxygen', sans-serif;
 }
 
+.box {
+    @apply w-full h-16 bg-white rounded-xl text-center relative;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
     width: 8px;
