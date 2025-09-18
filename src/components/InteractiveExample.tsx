@@ -5,6 +5,8 @@ import ToggleButton from './ToggleButton';
 import DisplaySection from './DisplaySection';
 import DisplayBox from './DisplayBox';
 import JsonDisplay from './JsonDisplay';
+import CodeBlock from './CodeBlock';
+import { getCodeTemplate } from '../utils/codeTemplates';
 
 const InteractiveExample: React.FC = () => {
   const { flags, setFlags } = useFlagsState({
@@ -29,6 +31,8 @@ const InteractiveExample: React.FC = () => {
   const [logEntries, setLogEntries] = useState<LogEntry[]>([
     { id: 1, timestamp: new Date().toLocaleTimeString(), action: 'Initial state loaded' }
   ]);
+
+  const [activeTab, setActiveTab] = useState<'demo' | 'code'>('demo');
 
   const logAction = (action: string) => {
     const newEntry: LogEntry = {
@@ -106,15 +110,40 @@ const InteractiveExample: React.FC = () => {
     logAction(`${sectionName} ${!isCurrentlyShown ? 'shown' : 'hidden'} with related boxes`);
   };
 
+
   return (
     <section id="interactive-example" className="py-20 bg-gray-800 text-white">
       <div className="container mx-auto px-4 max-w-4xl">
         <h2 className="text-4xl font-bold text-center mb-12">Interactive Example</h2>
 
         <div className="bg-gray-900 rounded-lg p-8">
+          {/* Tab Navigation */}
+          <div className="flex border-b border-gray-700 mb-8">
+            <button
+              onClick={() => setActiveTab('demo')}
+              className={`px-6 py-3 font-semibold text-lg transition-colors duration-200 border-b-2 ${
+                activeTab === 'demo'
+                  ? 'text-green-400 border-green-400'
+                  : 'text-gray-400 border-transparent hover:text-gray-300'
+              }`}
+            >
+              Live Demo
+            </button>
+            <button
+              onClick={() => setActiveTab('code')}
+              className={`px-6 py-3 font-semibold text-lg transition-colors duration-200 border-b-2 ${
+                activeTab === 'code'
+                  ? 'text-green-400 border-green-400'
+                  : 'text-gray-400 border-transparent hover:text-gray-300'
+              }`}
+            >
+              Code
+            </button>
+          </div>
+
           <div className="flex flex-col gap-8">
+            {activeTab === 'demo' && (
             <div>
-              <h3 className="text-2xl font-semibold mb-4 text-green-400">Live Demo</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
                 <ToggleButton
                   name="Section 1"
@@ -214,7 +243,30 @@ const InteractiveExample: React.FC = () => {
                 </div>
               </div>
             </div>
+            )}
 
+            {activeTab === 'code' && (
+            <div>
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-xl font-semibold mb-4 text-green-400">Basic Setup</h4>
+                  <CodeBlock code={getCodeTemplate('basicSetup')} />
+                </div>
+                
+                <div>
+                  <h4 className="text-xl font-semibold mb-4 text-green-400">Toggle Functions</h4>
+                  <CodeBlock code={getCodeTemplate('toggleFunctions')} />
+                </div>
+                
+                <div>
+                  <h4 className="text-xl font-semibold mb-4 text-green-400">Component Usage</h4>
+                  <CodeBlock code={getCodeTemplate('componentUsage')} />
+                </div>
+              </div>
+            </div>
+            )}
+
+            {activeTab === 'demo' && (
             <div>
               <h3 className="text-2xl font-semibold mb-4 text-green-400">Current State</h3>
               <div className="bg-gray-800 rounded-lg p-4">
@@ -238,6 +290,7 @@ const InteractiveExample: React.FC = () => {
                 </div>
               </div>
             </div>
+            )}
           </div>
         </div>
       </div>
