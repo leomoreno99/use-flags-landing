@@ -9,6 +9,7 @@ interface ToggleButtonProps {
   isLoading: boolean;
   onClick: () => void;
   variant: ButtonVariant;
+  isDisabled?: boolean;
 }
 
 const variantStyles: Record<ButtonVariant, { active: string; inactive: string }> = {
@@ -31,16 +32,17 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
   isActive,
   isLoading,
   onClick,
-  variant
+  variant,
+  isDisabled
 }) => {
   const styles = variantStyles[variant];
   const loadingState = isLoading ? 'opacity-75 cursor-not-allowed animate-pulse' : '';
   
   return (
     <Button
-      name={isLoading ? "Loading..." : name}
-      onClick={onClick}
-      className={`transition-all duration-300 ${isActive ? styles.active : styles.inactive} ${loadingState}`}
+      name={isLoading ? "Loading..." : name}  
+      onClick={isDisabled ? undefined : onClick}
+      className={`transition-all duration-300 ${isActive ? styles.active : styles.inactive} ${loadingState} ${isDisabled ? 'cursor-not-allowed opacity-75' : ''}`}
     />
   );
 };

@@ -1,14 +1,30 @@
 import React, { useState } from 'react';
 import type { LogEntry } from '../types';
-import type { ButtonConfig, SectionConfig, IndependentBoxConfig } from '../types/components';
-import { useFlagManager } from '../hooks/useFlagManager';
+import { useFlagsState } from 'use-flags-state';
 import ToggleButton from './ToggleButton';
 import DisplaySection from './DisplaySection';
 import DisplayBox from './DisplayBox';
 import JsonDisplay from './JsonDisplay';
 
 const InteractiveExample: React.FC = () => {
-  const { flags, toggleFlag, toggleSection } = useFlagManager();
+  const { flags, setFlags } = useFlagsState({
+    isSection1Show: false,
+    isSection2Show: false,
+    isBox1Show: false,
+    isBox2Show: false,
+    isBox3Show: false,
+    isBox4Show: false,
+    isBox5Show: false,
+    isBox6Show: false,
+    isSection1Loading: false,
+    isSection2Loading: false,
+    isBox1Loading: false,
+    isBox2Loading: false,
+    isBox3Loading: false,
+    isBox4Loading: false,
+    isBox5Loading: false,
+    isBox6Loading: false,
+  }, false);
 
   const [logEntries, setLogEntries] = useState<LogEntry[]>([
     { id: 1, timestamp: new Date().toLocaleTimeString(), action: 'Initial state loaded' }
@@ -27,91 +43,68 @@ const InteractiveExample: React.FC = () => {
     });
   };
 
-  // Configuration arrays for cleaner rendering
-  const buttonConfigs: ButtonConfig[] = [
-    {
-      name: 'Section 1',
-      action: () => toggleSection('section1', logAction),
-      isActive: flags.isSection1Show,
-      isLoading: flags.isSection1Loading,
-      variant: 'section'
-    },
-    {
-      name: 'Section 2',
-      action: () => toggleSection('section2', logAction),
-      isActive: flags.isSection2Show,
-      isLoading: flags.isSection2Loading,
-      variant: 'section'
-    },
-    {
-      name: 'Box 1',
-      action: () => toggleFlag('box1', logAction),
-      isActive: flags.isBox1Show,
-      isLoading: flags.isBox1Loading,
-      variant: 'box'
-    },
-    {
-      name: 'Box 2',
-      action: () => toggleFlag('box2', logAction),
-      isActive: flags.isBox2Show,
-      isLoading: flags.isBox2Loading,
-      variant: 'box'
-    },
-    {
-      name: 'Box 3',
-      action: () => toggleFlag('box3', logAction),
-      isActive: flags.isBox3Show,
-      isLoading: flags.isBox3Loading,
-      variant: 'box'
-    },
-    {
-      name: 'Box 4',
-      action: () => toggleFlag('box4', logAction),
-      isActive: flags.isBox4Show,
-      isLoading: flags.isBox4Loading,
-      variant: 'box'
-    },
-    {
-      name: 'Box 5',
-      action: () => toggleFlag('box5', logAction),
-      isActive: flags.isBox5Show,
-      isLoading: flags.isBox5Loading,
-      variant: 'independent'
-    },
-    {
-      name: 'Box 6',
-      action: () => toggleFlag('box6', logAction),
-      isActive: flags.isBox6Show,
-      isLoading: flags.isBox6Loading,
-      variant: 'independent'
-    }
-  ];
+  const toggleFlag = async (flagName: string) => {
+    const showFlag = `is${flagName.charAt(0).toUpperCase() + flagName.slice(1)}Show`;
+    const loadingFlag = `is${flagName.charAt(0).toUpperCase() + flagName.slice(1)}Loading`;
 
-  const sectionConfigs: SectionConfig[] = [
-    {
-      title: 'Section 1',
-      isVisible: flags.isSection1Show,
-      isLoading: flags.isSection1Loading,
-      boxes: [
-        { name: 'Box 1', isVisible: flags.isBox1Show, isLoading: flags.isBox1Loading },
-        { name: 'Box 2', isVisible: flags.isBox2Show, isLoading: flags.isBox2Loading }
-      ]
-    },
-    {
-      title: 'Section 2',
-      isVisible: flags.isSection2Show,
-      isLoading: flags.isSection2Loading,
-      boxes: [
-        { name: 'Box 3', isVisible: flags.isBox3Show, isLoading: flags.isBox3Loading },
-        { name: 'Box 4', isVisible: flags.isBox4Show, isLoading: flags.isBox4Loading }
-      ]
-    }
-  ];
+    // Set loading state
+    setFlags({ [loadingFlag]: true });
+    logAction(`Started toggling ${flagName} visibility`);
 
-  const independentBoxes: IndependentBoxConfig[] = [
-    { name: 'Box 5', isVisible: flags.isBox5Show, isLoading: flags.isBox5Loading },
-    { name: 'Box 6', isVisible: flags.isBox6Show, isLoading: flags.isBox6Loading }
-  ];
+    // Simulate async operation
+    await new Promise(resolve => setTimeout(resolve, 300));
+
+    // Toggle the actual flag
+    const currentState = flags[showFlag as keyof typeof flags];
+    setFlags({
+      [showFlag]: !currentState,
+      [loadingFlag]: false
+    });
+
+    logAction(`${flagName} ${!currentState ? 'shown' : 'hidden'}`);
+  };
+
+  const toggleSection = async (sectionName: string) => {
+    const showFlag = `is${sectionName.charAt(0).toUpperCase() + sectionName.slice(1)}Show`;
+    const loadingFlag = `is${sectionName.charAt(0).toUpperCase() + sectionName.slice(1)}Loading`;
+    const isCurrentlyShown = flags[showFlag as keyof typeof flags];
+
+    // Set loading state
+    setFlags({ [loadingFlag]: true });
+    logAction(`Started toggling ${sectionName} visibility`);
+
+    // Simulate async operation
+    await new Promise(resolve => setTimeout(resolve, 300));
+
+    // Toggle section and related boxes
+    const updates: any = {
+      [showFlag]: !isCurrentlyShown,
+      [loadingFlag]: false
+    };
+
+    // If showing section, show related boxes
+    if (!isCurrentlyShown) {
+      if (sectionName === 'section1') {
+        updates.isBox1Show = true;
+        updates.isBox2Show = true;
+      } else if (sectionName === 'section2') {
+        updates.isBox3Show = true;
+        updates.isBox4Show = true;
+      }
+    } else {
+      // If hiding section, hide related boxes
+      if (sectionName === 'section1') {
+        updates.isBox1Show = false;
+        updates.isBox2Show = false;
+      } else if (sectionName === 'section2') {
+        updates.isBox3Show = false;
+        updates.isBox4Show = false;
+      }
+    }
+
+    setFlags(updates);
+    logAction(`${sectionName} ${!isCurrentlyShown ? 'shown' : 'hidden'} with related boxes`);
+  };
 
   return (
     <section id="interactive-example" className="py-20 bg-gray-800 text-white">
@@ -123,38 +116,101 @@ const InteractiveExample: React.FC = () => {
             <div>
               <h3 className="text-2xl font-semibold mb-4 text-green-400">Live Demo</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
-                {buttonConfigs.map((config, index) => (
-                  <ToggleButton
-                    key={index}
-                    name={config.name}
-                    isActive={config.isActive}
-                    isLoading={config.isLoading}
-                    onClick={config.action}
-                    variant={config.variant}
-                  />
-                ))}
+                <ToggleButton
+                  name="Section 1"
+                  isActive={flags.isSection1Show}
+                  isLoading={flags.isSection1Loading}
+                  onClick={() => toggleSection('section1')}
+                  variant="section"
+                />
+                <ToggleButton
+                  name="Section 2"
+                  isActive={flags.isSection2Show}
+                  isLoading={flags.isSection2Loading}
+                  onClick={() => toggleSection('section2')}
+                  variant="section"
+                />
+                <ToggleButton
+                  name="Box 1"
+                  isActive={flags.isBox1Show}
+                  isLoading={flags.isBox1Loading}
+                  isDisabled={!flags.isSection1Show}
+                  onClick={() => toggleFlag('box1')}
+                  variant="box"
+                />
+                <ToggleButton
+                  name="Box 2"
+                  isActive={flags.isBox2Show}
+                  isLoading={flags.isBox2Loading}
+                  isDisabled={!flags.isSection1Show}
+                  onClick={() => toggleFlag('box2')}
+                  variant="box"
+                />
+                <ToggleButton
+                  name="Box 3"
+                  isActive={flags.isBox3Show}
+                  isLoading={flags.isBox3Loading}
+                  isDisabled={!flags.isSection2Show}
+                  onClick={() => toggleFlag('box3')}
+                  variant="box"
+                />
+                <ToggleButton
+                  name="Box 4"
+                  isActive={flags.isBox4Show}
+                  isLoading={flags.isBox4Loading}
+                  isDisabled={!flags.isSection2Show}
+                  onClick={() => toggleFlag('box4')}
+                  variant="box"
+                />
+                <ToggleButton
+                  name="Box 5"
+                  isActive={flags.isBox5Show}
+                  isLoading={flags.isBox5Loading}
+                  onClick={() => toggleFlag('box5')}
+                  variant="independent"
+                />
+                <ToggleButton
+                  name="Box 6"
+                  isActive={flags.isBox6Show}
+                  isLoading={flags.isBox6Loading}
+                  onClick={() => toggleFlag('box6')}
+                  variant="independent"
+                />
               </div>
               <div className='flex flex-col mt-8 gap-4'>
-                {sectionConfigs.map((section, index) => (
-                  <DisplaySection
-                    key={index}
-                    title={section.title}
-                    isVisible={section.isVisible}
-                    isLoading={section.isLoading}
-                    boxes={section.boxes}
-                  />
-                ))}
+                <DisplaySection
+                  title="Section 1"
+                  isVisible={flags.isSection1Show}
+                  isLoading={flags.isSection1Loading}
+                  boxes={[
+                    { name: 'Box 1', isVisible: flags.isBox1Show, isLoading: flags.isBox1Loading },
+                    { name: 'Box 2', isVisible: flags.isBox2Show, isLoading: flags.isBox2Loading }
+                  ]}
+                />
+                
+                <DisplaySection
+                  title="Section 2"
+                  isVisible={flags.isSection2Show}
+                  isLoading={flags.isSection2Loading}
+                  boxes={[
+                    { name: 'Box 3', isVisible: flags.isBox3Show, isLoading: flags.isBox3Loading },
+                    { name: 'Box 4', isVisible: flags.isBox4Show, isLoading: flags.isBox4Loading }
+                  ]}
+                />
                 
                 <div className='flex gap-3'>
-                  {independentBoxes.map((box, index) => (
-                    <DisplayBox
-                      key={index}
-                      name={box.name}
-                      isVisible={box.isVisible}
-                      isLoading={box.isLoading}
-                      variant="independent"
-                    />
-                  ))}
+                  <DisplayBox
+                    name="Box 5"
+                    isVisible={flags.isBox5Show}
+                    isLoading={flags.isBox5Loading}
+                    variant="independent"
+                  />
+                  <DisplayBox
+                    name="Box 6"
+                    isVisible={flags.isBox6Show}
+                    isLoading={flags.isBox6Loading}
+                    variant="independent"
+                  />
                 </div>
               </div>
             </div>
