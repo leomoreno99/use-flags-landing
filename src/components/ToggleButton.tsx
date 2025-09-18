@@ -14,15 +14,15 @@ interface ToggleButtonProps {
 
 const variantStyles: Record<ButtonVariant, { active: string; inactive: string }> = {
   section: {
-    active: 'bg-green-500 hover:bg-green-600 text-custom-green shadow-lg shadow-green-500/25',
+    active: 'bg-green-500 hover:bg-gray-100 text-custom-green shadow-lg shadow-green-500/25',
     inactive: 'bg-white hover:bg-gray-100 text-black'
   },
   box: {
-    active: 'bg-blue-500 hover:bg-blue-600 text-custom-green shadow-lg shadow-blue-500/25',
+    active: 'bg-blue-500 hover:bg-gray-100 text-custom-green shadow-lg shadow-blue-500/25',
     inactive: 'bg-white hover:bg-gray-100 text-black'
   },
   independent: {
-    active: 'bg-purple-500 hover:bg-purple-600 text-custom-green shadow-lg shadow-purple-500/25',
+    active: 'bg-purple-500 hover:bg-gray-100 text-custom-green shadow-lg shadow-purple-500/25',
     inactive: 'bg-white hover:bg-gray-100 text-black'
   }
 };

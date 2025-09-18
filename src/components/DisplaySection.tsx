@@ -20,7 +20,7 @@ const DisplaySection: React.FC<DisplaySectionProps> = ({
 }) => {
   const sectionStyles = isVisible
     ? 'bg-gradient-to-br from-green-500/20 to-green-600/10 border-2 border-green-500/30 shadow-lg shadow-green-500/10'
-    : 'bg-gray-800 border-2 border-gray-700';
+    : 'border-2 border-custom-gray';
     
   const loadingStyles = isLoading ? 'animate-pulse' : '';
   const titleColor = isVisible ? 'text-green-400' : 'text-gray-300';
@@ -28,7 +28,7 @@ const DisplaySection: React.FC<DisplaySectionProps> = ({
   return (
     <div className={`flex flex-col gap-3 w-full rounded-xl p-6 transition-all duration-500 ${sectionStyles} ${loadingStyles}`}>
       <div className='flex items-center gap-3'>
-        <h4 className={`text-lg font-semibold transition-colors duration-300 ${titleColor}`}>
+        <h4 className={`text-base font-semibold transition-colors duration-300 ${titleColor}`}>
           {title}
         </h4>
         {isVisible && (
