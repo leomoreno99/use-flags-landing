@@ -1,30 +1,118 @@
 export const codeTemplates = {
   basicExample: `import { useFlagsState } from 'use-flags-state';
 
-  const { flags, setFlags, setFlag } = useFlagsState({
-    isLoading: false,
-    isError: false,
-    isSuccess: false,
+function MyComponent() {
+  // Initialize with default reset=true behavior
+  const { flags, setFlags } = useFlagsState({
+    showModal: false,
+    isModalLoading: false,
+    isDarkMode: false,
+    isDarkModeLoading: false,
   });
 
-  const handleClick = async () => {
-    setFlags({ isLoading: true });
-    try {
-      const response = await fetch('/api/endpoint');
-      setFlags({ isLoading: false, isSuccess: true });
-    } catch (error) {
-      setFlags({ isLoading: false, isError: true });
+  const { showModal, isModalLoading, isDarkMode, isDarkModeLoading } = flags;
+
+  const handleToggleModal = async () => {
+    setFlags({ isModalLoading: true, showModal }); // <- showModal maintains its value
+    if (showModal) {
+      // Closing modal
+      await new Promise(resolve => setTimeout(resolve, 600));
+      setFlags({}); // <- Is not necessary set showModal to false (it will be reset to initial value)
+    } else {
+      // Opening modal
+      await new Promise(resolve => setTimeout(resolve, 600));
+      setFlags({ showModal: true }); // Other flags reset to initial values
     }
+  };
+
+  const handleToggleDarkMode = async () => {
+    const newValue = !isDarkMode;
+    setFlags({ isDarkModeLoading: true, isDarkMode }); // <- isDarkMode maintains its value
+    
+    // Simulate API call to save user preference
+    await new Promise(resolve => setTimeout(resolve, 600));
+    
+    // Notice: other flags reset to initial values
+    setFlags({ isDarkMode: newValue });
   };
 
   return (
     <div>
-      <button onClick={handleClick}>Click me</button>
-      {flags.isLoading && <div>Loading...</div>}
-      {flags.isError && <div>Error!</div>}
-      {flags.isSuccess && <div>Success!</div>}
+      <button onClick={handleToggleModal} disabled={isModalLoading}>
+        {isModalLoading ? 'Loading...' : 
+         showModal ? 'Close Modal' : 'Open Modal'}
+      </button>
+      
+      <button onClick={handleToggleDarkMode} disabled={isDarkModeLoading}>
+        {isDarkModeLoading ? 'Saving...' : 
+         isDarkMode ? 'Light Mode' : 'Dark Mode'}
+      </button>
+      
+      {showModal && <div>Modal is open!</div>}
+      {(isModalLoading || isDarkModeLoading) && (
+        <div>Processing...</div>
+      )}
     </div>
-);`,
+  );
+}`,
+
+  basicExampleNoReset: `import { useFlagsState } from 'use-flags-state';
+
+function MyComponent() {
+  // Initialize with reset=false to preserve other flags
+  const { flags, setFlags } = useFlagsState({
+    showModal: false,
+    isModalLoading: false,
+    isDarkMode: false,
+    isDarkModeLoading: false,
+  }, false);
+
+  const { showModal, isModalLoading, isDarkMode, isDarkModeLoading } = flags;
+
+  const handleToggleModal = async () => {
+    setFlags({ isModalLoading: true, showModal }); // <- showModal maintains its value
+    if (showModal) {
+      // Closing modal
+      
+      await new Promise(resolve => setTimeout(resolve, 600));
+      setFlags({}); // Other flags preserved (like isDarkMode) <- Is not necessary set showModal to false (it will be reset to initial value)
+    } else {
+      // Opening modal
+      await new Promise(resolve => setTimeout(resolve, 600));
+      setFlags({ showModal: true }); // Other flags preserved (like isDarkMode)
+    }
+  };
+
+  const handleToggleDarkMode = async () => {
+    const newValue = !isDarkMode;
+    setFlags({ isDarkModeLoading: true, isDarkMode }); // <- isDarkMode maintains its value
+    
+    // Simulate API call to save user preference
+    await new Promise(resolve => setTimeout(resolve, 600));
+    
+    // Notice: other flags are preserved (like showModal)
+    setFlags({ isDarkMode: newValue });
+  };
+
+  return (
+    <div>
+      <button onClick={handleToggleModal} disabled={isModalLoading}>
+        {isModalLoading ? 'Loading...' : 
+         showModal ? 'Close Modal' : 'Open Modal'}
+      </button>
+      
+      <button onClick={handleToggleDarkMode} disabled={isDarkModeLoading}>
+        {isDarkModeLoading ? 'Saving...' : 
+         isDarkMode ? 'Light Mode' : 'Dark Mode'}
+      </button>
+      
+      {showModal && <div>Modal is open!</div>}
+      {(isModalLoading || isDarkModeLoading) && (
+        <div>Processing...</div>
+      )}
+    </div>
+  );
+}`,
   basicSetup: `import { useFlagsState } from 'use-flags-state';
 
 const { flags, setFlags } = useFlagsState({
