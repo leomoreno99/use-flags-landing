@@ -4,7 +4,7 @@ import ToggleButton from './ToggleButton';
 import JsonDisplay from './JsonDisplay';
 import CodeBlock from './CodeBlock';
 import { getCodeTemplate } from '../utils/codeTemplates';
-import { TabButton } from './TabButton';
+import TabbedContainer from './TabbedContainer';
 
 const SimpleInteractiveExampleNoReset: React.FC = () => {
   const { flags, setFlags } = useFlagsState({
@@ -17,7 +17,6 @@ const SimpleInteractiveExampleNoReset: React.FC = () => {
   const { showModal, isModalLoading, isDarkMode, isDarkModeLoading } = flags;
 
   const [actionLog, setActionLog] = useState<string[]>(['Initial state loaded']);
-  const [activeTab, setActiveTab] = useState<'demo' | 'code'>('demo');
 
   const logAction = (action: string) => {
     setActionLog(prev => [...prev.slice(-4), action]); // Keep last 5 entries
@@ -60,27 +59,9 @@ const SimpleInteractiveExampleNoReset: React.FC = () => {
 
 
   return (
-    <div className="border border-custom-gray p-4 rounded-[6px]"
-      style={{ background: 'linear-gradient(180deg, #222222 0%, #1A1A1A 100%)' }}
-    >
-      {/* Tab Navigation */}
-      <div className="flex border-b border-gray-700 mb-8">
-        <TabButton
-          onClick={() => setActiveTab('demo')}
-          activeTab={activeTab}
-          label="Live Demo"
-          variant="demo"
-        />
-        <TabButton
-          onClick={() => setActiveTab('code')}
-          activeTab={activeTab}
-          label="Code"
-          variant="code"
-        />
-      </div>
-
-      <div className="flex flex-col gap-8">
-        {activeTab === 'demo' && (
+    <TabbedContainer
+      demoContent={
+        <>
           <div>
             {/* Control Buttons */}
             <div className="grid grid-cols-2 gap-3 mt-6">
@@ -156,20 +137,19 @@ const SimpleInteractiveExampleNoReset: React.FC = () => {
               </div>
             </div>
           </div>
-        )}
-
-        {activeTab === 'code' && (
-          <div>
-            <div className="space-y-6">
-              <div>
-                <h4 className="text-base font-semibold mb-4 text-white">Code Example</h4>
-                <CodeBlock code={getCodeTemplate('basicExampleNoReset')} />
-              </div>
+        </>
+      }
+      codeContent={
+        <div>
+          <div className="space-y-6">
+            <div>
+              <h4 className="text-base font-semibold mb-4 text-white">Code Example</h4>
+              <CodeBlock code={getCodeTemplate('basicExampleNoReset')} />
             </div>
           </div>
-        )}
-      </div>
-    </div>
+        </div>
+      }
+    />
   );
 };
 

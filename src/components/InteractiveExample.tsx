@@ -8,7 +8,7 @@ import JsonDisplay from './JsonDisplay';
 import CodeBlock from './CodeBlock';
 import { getCodeTemplate } from '../utils/codeTemplates';
 import Subtitle from './Subtitle';
-import { TabButton } from './TabButton';
+import TabbedContainer from './TabbedContainer';
 
 const InteractiveExample: React.FC = () => {
   const { flags, setFlags } = useFlagsState({
@@ -34,7 +34,6 @@ const InteractiveExample: React.FC = () => {
     { id: 1, timestamp: new Date().toLocaleTimeString(), action: 'Initial state loaded' }
   ]);
 
-  const [activeTab, setActiveTab] = useState<'demo' | 'code'>('demo');
 
   const logAction = (action: string) => {
     const newEntry: LogEntry = {
@@ -118,27 +117,11 @@ const InteractiveExample: React.FC = () => {
       <div>
         <Subtitle text="Interactive Example" />
 
-        <div className="border border-custom-gray p-4 rounded-[6px] my-6"
+        <TabbedContainer
+          className="border border-custom-gray p-4 rounded-[6px] my-6"
           style={{ background: 'linear-gradient(180deg, #222222 0%, #1A1A1A 100%)' }}
-        >
-          {/* Tab Navigation */}
-          <div className="flex border-b border-gray-700 mb-8">
-            <TabButton
-              onClick={() => setActiveTab('demo')}
-              activeTab={activeTab}
-              label="Live Demo"
-              variant="demo"
-            />
-            <TabButton
-              onClick={() => setActiveTab('code')}
-              activeTab={activeTab}
-              label="Code"
-              variant="code"
-            />
-          </div>
-
-          <div className="flex flex-col gap-8">
-            {activeTab === 'demo' && (
+          demoContent={
+            <>
               <div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
                   <ToggleButton
@@ -239,30 +222,6 @@ const InteractiveExample: React.FC = () => {
                   </div>
                 </div>
               </div>
-            )}
-
-            {activeTab === 'code' && (
-              <div>
-                <div className="space-y-6">
-                  <div>
-                    <h4 className="text-base font-semibold mb-4 text-white">Basic Setup</h4>
-                    <CodeBlock code={getCodeTemplate('basicSetup')} />
-                  </div>
-
-                  <div>
-                    <h4 className="text-base font-semibold mb-4 text-white">Toggle Functions</h4>
-                    <CodeBlock code={getCodeTemplate('toggleFunctions')} />
-                  </div>
-
-                  <div>
-                    <h4 className="text-base font-semibold mb-4 text-white">Component Usage</h4>
-                    <CodeBlock code={getCodeTemplate('componentUsage')} />
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {activeTab === 'demo' && (
               <div>
                 <h3 className="text-base font-semibold mb-4">Current State</h3>
                 <div className="bg-neutral-800 rounded-lg p-4">
@@ -286,9 +245,29 @@ const InteractiveExample: React.FC = () => {
                   </div>
                 </div>
               </div>
-            )}
-          </div>
-        </div>
+            </>
+          }
+          codeContent={
+            <div>
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-base font-semibold mb-4 text-white">Basic Setup</h4>
+                  <CodeBlock code={getCodeTemplate('basicSetup')} />
+                </div>
+
+                <div>
+                  <h4 className="text-base font-semibold mb-4 text-white">Toggle Functions</h4>
+                  <CodeBlock code={getCodeTemplate('toggleFunctions')} />
+                </div>
+
+                <div>
+                  <h4 className="text-base font-semibold mb-4 text-white">Component Usage</h4>
+                  <CodeBlock code={getCodeTemplate('componentUsage')} />
+                </div>
+              </div>
+            </div>
+          }
+        />
       </div>
     </section>
   );
