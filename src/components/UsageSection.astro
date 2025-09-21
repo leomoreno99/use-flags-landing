@@ -16,9 +16,7 @@ import SimpleInteractiveExampleNoReset from "./SimpleInteractiveExampleNoReset";
   <div class="space-y-12">
     <!-- Default behavior (reset=true) -->
     <div class="space-y-6">
-      <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-        Default Behavior (reset=true)
-      </h3>
+      <Subtitle text="Default behavior (reset=true)" />
       <Paragraph>
         By default, when you update flags with <code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm">setFlags()</code>, 
         all flags not specified in the update are reset to their initial values. This is useful when you want 
@@ -33,9 +31,7 @@ import SimpleInteractiveExampleNoReset from "./SimpleInteractiveExampleNoReset";
 
     <!-- Preserve state behavior (reset=false) -->
     <div class="space-y-6">
-      <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-        Preserve State (reset=false)
-      </h3>
+      <Subtitle text="Preserve state behavior (reset=false)" />
       <Paragraph>
         When you set <code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm">reset=false</code>, 
         only the flags you specify are updated, while all other flags maintain their current values. 

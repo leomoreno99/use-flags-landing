@@ -6,6 +6,7 @@ import CodeBlock from './CodeBlock';
 import { getCodeTemplate } from '../utils/codeTemplates';
 import TabbedContainer from './TabbedContainer';
 import StatusCard from './StatusCard';
+import ActionLog from './ActionLog';
 
 const SimpleInteractiveExampleNoReset: React.FC = () => {
   const { flags, setFlags } = useFlagsState({
@@ -127,21 +128,7 @@ const SimpleInteractiveExampleNoReset: React.FC = () => {
                 <JsonDisplay data={flags} />
               </div>
 
-              <div className="mt-8">
-                <h4 className="text-base font-semibold mb-4 text-gray-300 flex items-center gap-2">
-                  <div className='w-2 h-2 bg-blue-400 rounded-full animate-pulse'></div>
-                  Actions Log
-                </h4>
-                <div className="bg-neutral-800 rounded-lg p-4 max-h-40 overflow-y-auto border border-gray-700">
-                  <div className="text-sm text-gray-400 space-y-2">
-                    {actionLog.map((action, index) => (
-                      <div key={index} className="flex justify-between items-center py-1 px-2 rounded bg-gray-700/50 hover:bg-gray-700 transition-colors">
-                        <span className='text-gray-300'>{action}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+              <ActionLog data={actionLog} />
             </div>
           </div>
         </>

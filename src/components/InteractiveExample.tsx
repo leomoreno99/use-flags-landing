@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import type { LogEntry } from '../types';
 import { useFlagsState } from 'use-flags-state';
 import ToggleButton from './ToggleButton';
 import DisplaySection from './DisplaySection';
@@ -9,6 +8,7 @@ import CodeBlock from './CodeBlock';
 import { getCodeTemplate } from '../utils/codeTemplates';
 import Subtitle from './Subtitle';
 import TabbedContainer from './TabbedContainer';
+import ActionLog, { type LogEntry } from './ActionLog';
 
 const InteractiveExample: React.FC = () => {
   const { flags, setFlags } = useFlagsState({
@@ -228,22 +228,7 @@ const InteractiveExample: React.FC = () => {
                   <JsonDisplay data={flags} />
                 </div>
 
-                <div className="mt-8">
-                  <h4 className="text-base font-semibold mb-4 text-gray-300 flex items-center gap-2">
-                    <div className='w-2 h-2 bg-blue-400 rounded-full animate-pulse'></div>
-                    Actions Log
-                  </h4>
-                  <div className="bg-neutral-800 rounded-lg p-4 max-h-40 overflow-y-auto border border-gray-700">
-                    <div className="text-sm text-gray-400 space-y-2">
-                      {logEntries.map(entry => (
-                        <div key={entry.id} className="flex justify-between items-center py-1 px-2 rounded bg-gray-700/50 hover:bg-gray-700 transition-colors">
-                          <span className='text-gray-500 font-mono text-xs'>[{entry.timestamp}]</span>
-                          <span className='text-gray-300'>{entry.action}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+                <ActionLog data={logEntries} />
               </div>
             </>
           }
