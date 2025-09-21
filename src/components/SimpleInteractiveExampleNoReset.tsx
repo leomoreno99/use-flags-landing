@@ -5,6 +5,7 @@ import JsonDisplay from './JsonDisplay';
 import CodeBlock from './CodeBlock';
 import { getCodeTemplate } from '../utils/codeTemplates';
 import TabbedContainer from './TabbedContainer';
+import StatusCard from './StatusCard';
 
 const SimpleInteractiveExampleNoReset: React.FC = () => {
   const { flags, setFlags } = useFlagsState({
@@ -31,7 +32,7 @@ const SimpleInteractiveExampleNoReset: React.FC = () => {
       // Simulate saving modal state before closing
       await new Promise(resolve => setTimeout(resolve, 600));
 
-      setFlags({ }); // <- Is not necessary set showModal to false (it will be preserved)
+      setFlags({ showModal: false });
       logAction('Modal closed and state saved - other flags preserved');
     } else {
       // Opening modal
@@ -84,33 +85,39 @@ const SimpleInteractiveExampleNoReset: React.FC = () => {
 
             {/* Visual States */}
             <div className="space-y-4 mt-8 mb-6">
-              {showModal && (
-                <div className="bg-blue-100 dark:bg-blue-900 border border-blue-300 dark:border-blue-700 p-4 rounded-md">
-                  <h4 className="font-semibold text-blue-800 dark:text-blue-200">Modal is Open!</h4>
-                  <p className="text-blue-600 dark:text-blue-300">Modal data has been loaded successfully.</p>
-                </div>
-              )}
-
               {(isModalLoading || isDarkModeLoading) && (
-                <div className="bg-yellow-100 dark:bg-yellow-900 border border-yellow-300 dark:border-yellow-700 p-4 rounded-md">
-                  <h4 className="font-semibold text-yellow-800 dark:text-yellow-200">Loading...</h4>
-                  <p className="text-yellow-600 dark:text-yellow-300">
-                    {isModalLoading && 'Processing modal data...'}
-                    {isDarkModeLoading && 'Saving theme preference...'}
-                  </p>
-                </div>
+                <StatusCard
+                  variant="warning"
+                  title="Loading..."
+                  description={
+                    isModalLoading && isDarkModeLoading
+                      ? 'Processing modal data... Saving theme preference...'
+                      : isModalLoading
+                        ? 'Processing modal data...'
+                        : 'Saving theme preference...'
+                  }
+                />
               )}
 
-              <div className={`p-4 rounded-md border transition-colors ${isDarkMode
-                ? 'bg-gray-900 border-gray-700 text-white'
-                : 'bg-white border-gray-300 text-gray-900'
-                }`}>
-                <h4 className="font-semibold">Theme Preview</h4>
-                <p>Current mode: {isDarkMode ? 'Dark' : 'Light'}</p>
-                {isDarkModeLoading && (
-                  <p className="text-sm opacity-75 mt-1">Syncing with server...</p>
-                )}
-              </div>
+              {showModal && (
+                <StatusCard
+                  variant="success"
+                  title="Modal is Open!"
+                  description="Modal data has been loaded successfully."
+                />
+              )}
+
+              <StatusCard
+                variant="theme"
+                title="Theme Preview"
+                description={`Current mode: ${isDarkMode ? 'Dark' : 'Light'}`}
+                isDarkMode={isDarkMode}
+                additionalContent={
+                  isDarkModeLoading && (
+                    <p className="text-sm opacity-75 mt-1">Syncing with server...</p>
+                  )
+                }
+              />
             </div>
 
             {/* Current State Display */}
@@ -142,10 +149,7 @@ const SimpleInteractiveExampleNoReset: React.FC = () => {
       codeContent={
         <div>
           <div className="space-y-6">
-            <div>
-              <h4 className="text-base font-semibold mb-4 text-white">Code Example</h4>
-              <CodeBlock code={getCodeTemplate('basicExampleNoReset')} />
-            </div>
+            <CodeBlock code={getCodeTemplate('basicExampleNoReset')} />
           </div>
         </div>
       }

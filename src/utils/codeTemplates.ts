@@ -75,7 +75,7 @@ function MyComponent() {
       // Closing modal
       
       await new Promise(resolve => setTimeout(resolve, 600));
-      setFlags({}); // Other flags preserved (like isDarkMode) <- Is not necessary set showModal to false (it will be reset to initial value)
+      setFlags({ showModal: false }); // Other flags preserved (like isDarkMode)
     } else {
       // Opening modal
       await new Promise(resolve => setTimeout(resolve, 600));
