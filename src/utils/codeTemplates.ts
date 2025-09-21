@@ -1,4 +1,30 @@
 export const codeTemplates = {
+  basicExample: `import { useFlagsState } from 'use-flags-state';
+
+  const { flags, setFlags, setFlag } = useFlagsState({
+    isLoading: false,
+    isError: false,
+    isSuccess: false,
+  });
+
+  const handleClick = async () => {
+    setFlags({ isLoading: true });
+    try {
+      const response = await fetch('/api/endpoint');
+      setFlags({ isLoading: false, isSuccess: true });
+    } catch (error) {
+      setFlags({ isLoading: false, isError: true });
+    }
+  };
+
+  return (
+    <div>
+      <button onClick={handleClick}>Click me</button>
+      {flags.isLoading && <div>Loading...</div>}
+      {flags.isError && <div>Error!</div>}
+      {flags.isSuccess && <div>Success!</div>}
+    </div>
+);`,
   basicSetup: `import { useFlagsState } from 'use-flags-state';
 
 const { flags, setFlags } = useFlagsState({
