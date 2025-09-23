@@ -3,6 +3,8 @@ import Paragraph from "./Paragraph.astro";
 import Subtitle from "./Subtitle";
 import SimpleInteractiveExample from "./SimpleInteractiveExample";
 import SimpleInteractiveExampleNoReset from "./SimpleInteractiveExampleNoReset";
+import CodeBlock from "./CodeBlock";
+import { getCodeTemplate } from "../utils/codeTemplates";
 ---
 
 <div class="mx-auto max-w-4xl flex flex-col gap-3.5">
@@ -18,14 +20,18 @@ import SimpleInteractiveExampleNoReset from "./SimpleInteractiveExampleNoReset";
     <div class="space-y-6">
       <Subtitle text="Default behavior (reset=true)" />
       <Paragraph>
-        By default, when you update flags with <code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm">setFlags()</code>, 
-        all flags not specified in the update are reset to their initial values. This is useful when you want 
-        to ensure a clean state for each operation.
+        By default, when you update flags with <code
+          class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm"
+          >setFlags()</code
+        >, all flags not specified in the update are reset to their initial
+        values. This is useful when you want to ensure a clean state for each
+        operation.
       </Paragraph>
-      
+
       <SimpleInteractiveExample client:only="react" />
       <p class="text-sm text-gray-600 dark:text-gray-400 italic">
-        Notice how clicking any button resets other flags to their initial values (false).
+        Notice how clicking any button resets other flags to their initial
+        values (false).
       </p>
     </div>
 
@@ -33,15 +39,67 @@ import SimpleInteractiveExampleNoReset from "./SimpleInteractiveExampleNoReset";
     <div class="space-y-6">
       <Subtitle text="Preserve state behavior (reset=false)" />
       <Paragraph>
-        When you set <code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm">reset=false</code>, 
-        only the flags you specify are updated, while all other flags maintain their current values. 
-        This is perfect for complex UIs where you need to preserve existing state.
+        When you set <code
+          class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm"
+          >reset=false</code
+        >, only the flags you specify are updated, while all other flags
+        maintain their current values. This is perfect for complex UIs where you
+        need to preserve existing state.
       </Paragraph>
-      
+
       <SimpleInteractiveExampleNoReset client:only="react" />
       <p class="text-sm text-gray-600 dark:text-gray-400 italic">
-        Notice how flags preserve their values when other flags are updated. Try enabling dark mode first, then other actions.
+        Notice how flags preserve their values when other flags are updated. Try
+        enabling dark mode first, then other actions.
       </p>
+    </div>
+
+    <!-- Individual flag updates with setFlag -->
+    <div class="space-y-6">
+      <Subtitle text="Individual flag updates with setFlag" />
+      <Paragraph>
+        The <code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm"
+          >setFlag</code
+        > function allows you to update individual flags without affecting others.
+        This is particularly useful when passing toggle functions as props to child
+        components, such as modals, dropdowns, or any component that needs to control
+        its own visibility state.
+      </Paragraph>
+
+      <Paragraph>
+        <code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm"
+          >setFlag</code
+        > returns a function that behaves like React's
+        <code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm"
+          >setState</code
+        >, accepting either a boolean value or an updater function.
+      </Paragraph>
+
+      <ul class="text-custom-lightgray space-y-1 text-base mb-6">
+        <li>
+          • <strong>Individual updates:</strong> Only the specified flag changes,
+          others remain untouched
+        </li>
+        <li>
+          • <strong>Component props:</strong> Perfect for passing toggle functions
+          to child components
+        </li>
+        <li>
+          • <strong>Flexible API:</strong> Accepts both direct values and updater
+          functions
+        </li>
+        <li>
+          • <strong>Type safety:</strong> Full TypeScript support with autocomplete
+          for flag names
+        </li>
+      </ul>
+
+      <div class="space-y-4">
+        <CodeBlock
+          code={getCodeTemplate("setFlagExample")}
+          client:only="react"
+        />
+      </div>
     </div>
   </div>
 </div>

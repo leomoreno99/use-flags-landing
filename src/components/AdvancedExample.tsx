@@ -10,7 +10,7 @@ import Subtitle from './Subtitle';
 import TabbedContainer from './TabbedContainer';
 import ActionLog, { type LogEntry } from './ActionLog';
 
-const InteractiveExample: React.FC = () => {
+const AdvancedExample: React.FC = () => {
   const { flags, setFlags } = useFlagsState({
     isSection1Show: false,
     isSection2Show: false,
@@ -113,9 +113,9 @@ const InteractiveExample: React.FC = () => {
 
 
   return (
-    <section id="interactive-example">
+    <section>
       <div>
-        <Subtitle text="Interactive Example" />
+        <Subtitle text="Advanced Example" />
 
         <TabbedContainer
           className="border border-custom-gray p-4 rounded-[6px] my-6"
@@ -258,4 +258,4 @@ const InteractiveExample: React.FC = () => {
   );
 };
 
-export default InteractiveExample;
+export default AdvancedExample;

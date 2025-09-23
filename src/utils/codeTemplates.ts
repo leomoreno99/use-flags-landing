@@ -222,7 +222,54 @@ const toggleSection = async (sectionName: string) => {
 // Loading states
 {flags.isSection1Loading && (
   <div className="loading">Loading Section 1...</div>
-)}`
+)}`,
+
+  setFlagExample: `import { useFlagsState } from 'use-flags-state';
+
+function App() {
+  const { flags, setFlag } = useFlagsState({
+    isModalOpen: false,
+  });
+
+  return (
+    <div>
+      {/* Pass the setter function directly as a prop */}
+      <Modal 
+        isModalOpen={flags.isModalOpen}
+        setIsModalOpen={setFlag('isModalOpen')}
+      />
+      
+      {/* You can also trigger it from the parent */}
+      <button onClick={() => setFlag('isModalOpen')(true)}>
+        Open Modal from Parent
+      </button>
+    </div>
+  );
+}
+
+// Example Modal component that handles its own state
+function Modal({ isModalOpen, setIsModalOpen }) {
+  if (!isModalOpen) return null;
+  
+  return (
+    <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <h2>Modal Content</h2>
+        <p>This modal can control its own state!</p>
+        
+        {/* Modal handles its own closing */}
+        <button onClick={() => setIsModalOpen(false)}>
+          Close Modal
+        </button>
+        
+        {/* Modal can even toggle itself */}
+        <button onClick={() => setIsModalOpen(prev => !prev)}>
+          Toggle Modal
+        </button>
+      </div>
+    </div>
+  );
+}`
 };
 
 export const getCodeTemplate = (templateName: keyof typeof codeTemplates): string => {

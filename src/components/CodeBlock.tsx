@@ -18,9 +18,34 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
         </div>
       )}
 
-      <pre className="text-gray-100 roboto-mono text-base overflow-x-auto">
+      <pre 
+        className="text-gray-100 roboto-mono text-base overflow-auto custom-scrollbar"
+        style={{
+          // scrollbarWidth: 'thin',
+          scrollbarColor: '#4B5563 #1F2937',
+        }}
+      >
         <code>{code}</code>
       </pre>
+      
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          .custom-scrollbar::-webkit-scrollbar {
+            width: 16px;
+            height: 16px;
+          }
+          .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1F2937;
+          }
+          .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #4B5563;
+            border-radius: 8px;
+          }
+          .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #6B7280;
+          }
+        `
+      }} />
     </div>
   );
 };
