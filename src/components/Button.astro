@@ -1,5 +1,5 @@
 ---
-const { name = 'Button', href = '', className = '' } = Astro.props;
+const { name = 'Button', href = '', className = '', variant = 'default' } = Astro.props;
 ---
 
 {href ? (
@@ -7,14 +7,14 @@ const { name = 'Button', href = '', className = '' } = Astro.props;
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    class={`bg-white hover:bg-gray-100 text-black font-semibold py-3 px-4 rounded-md transition-colors duration-200 inline-block ${className}`}
+    class={`bg-white hover:bg-gray-100 text-black font-semibold py-3 px-4 rounded-md transition-colors duration-200 inline-block ${className} ${variant === 'default' ? 'bg-white hover:bg-gray-100 text-black' : 'bg-custom-black hover:text-neutral-300 text-white'}`}
   >
     {name}
   </a>
 ) : (
   <button
-    class={`bg-white hover:bg-gray-100 text-black font-semibold py-3 px-4 rounded-md transition-colors duration-200 ${className}`}
+    class={`bg-white hover:bg-gray-100 text-black font-semibold py-3 px-4 rounded-md transition-colors duration-200 ${className} ${variant === 'default' ? 'bg-white hover:bg-gray-100 text-black' : 'bg-custom-green hover:bg-custom-green/80 text-white'}`}
   >
     {name}
-  </a>
+  </button>
 )}
