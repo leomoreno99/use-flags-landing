@@ -1,7 +1,6 @@
 import React from 'react';
 
 export type StatusCardVariant = 'success' | 'warning' | 'theme';
-
 interface StatusCardProps {
   variant: StatusCardVariant;
   title: string;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useFlagsState } from 'use-flags-state';
 import ToggleButton from './ToggleButton';
 import DisplaySection from './DisplaySection';
@@ -10,7 +10,7 @@ import Subtitle from './Subtitle';
 import TabbedContainer from './TabbedContainer';
 import ActionLog, { type LogEntry } from './ActionLog';
 
-const AdvancedExample: React.FC = () => {
+const AdvancedExample = () => {
   const { flags, setFlags } = useFlagsState({
     isSection1Show: false,
     isSection2Show: false,

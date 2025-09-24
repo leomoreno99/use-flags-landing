@@ -1,5 +1,4 @@
 import React from 'react';
-
 interface JsonDisplayProps {
   data: Record<string, any>;
 }
@@ -7,7 +6,7 @@ interface JsonDisplayProps {
 const JsonDisplay: React.FC<JsonDisplayProps> = ({ data }) => {
   const formatJsonValue = (key: string, value: any, isLast: boolean = false) => {
     const comma = isLast ? '' : ',';
-    
+
     if (typeof value === 'boolean') {
       return (
         <div key={key} className="ml-4">
@@ -20,7 +19,7 @@ const JsonDisplay: React.FC<JsonDisplayProps> = ({ data }) => {
         </div>
       );
     }
-    
+
     return (
       <div key={key} className="ml-4">
         <span className="text-blue-300">"{key}"</span>
@@ -32,11 +31,11 @@ const JsonDisplay: React.FC<JsonDisplayProps> = ({ data }) => {
   };
 
   const entries = Object.entries(data);
-  
+
   return (
     <div className="text-sm font-mono">
       <div className="text-gray-300">{'{'}</div>
-      {entries.map(([key, value], index) => 
+      {entries.map(([key, value], index) =>
         formatJsonValue(key, value, index === entries.length - 1)
       )}
       <div className="text-gray-300">{'}'}</div>

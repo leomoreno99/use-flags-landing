@@ -1,7 +1,6 @@
 import React from 'react';
 
 type BoxVariant = 'section' | 'independent';
-
 interface DisplayBoxProps {
   name: string;
   isVisible: boolean;
