@@ -21,7 +21,7 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "tailwindcss": "^4.1.12",
-    "use-flags-state": "^1.1.0"
+    "use-flags-state": "^1.1.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.21"

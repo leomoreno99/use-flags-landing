@@ -45,8 +45,8 @@ importers:
         specifier: ^4.1.12
         version: 4.1.13
       use-flags-state:
-        specifier: ^1.1.0
-        version: 1.1.0(react@19.1.1)
+        specifier: ^1.1.1
+        version: 1.1.1(react@19.1.1)
     devDependencies:
       autoprefixer:
         specifier: ^10.4.21
@@ -1809,8 +1809,8 @@ packages:
     peerDependencies:
       browserslist: '>= 4.21.0'
 
-  use-flags-state@1.1.0:
-    resolution: {integrity: sha512-uzq6CaVgsPbfCq5eUpX2eDgTnJSJDBQ9WqD6HKmCLkUNNf4pwoOo8wCIDN8UiWCBuiMllOXO9BSIkG6/R2znYQ==}
+  use-flags-state@1.1.1:
+    resolution: {integrity: sha512-u+mSYE7MCh1uEXj2pslWRQ/7/YE2cbQA14zTP1pR7C1KTUUIZSOiW5pTQI2enUJSw0cQGCVIXwubsMGIwHGa1A==}
     engines: {node: '>= 16.0.0'}
     peerDependencies:
       react: '*'
@@ -3924,7 +3924,7 @@ snapshots:
       escalade: 3.2.0
       picocolors: 1.1.1
 
-  use-flags-state@1.1.0(react@19.1.1):
+  use-flags-state@1.1.1(react@19.1.1):
     dependencies:
       react: 19.1.1
 
